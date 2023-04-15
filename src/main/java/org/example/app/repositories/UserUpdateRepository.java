@@ -1,23 +1,23 @@
 package org.example.app.repositories;
 
-import jakarta.persistence.Query;
 import org.example.app.entities.User;
 import org.example.app.utils.Constants;
 import org.example.app.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.MutationQuery;
 
 public class UserUpdateRepository {
-    @SuppressWarnings("deprecation")
     public String updateUser(User user) {
 
         Transaction transaction = null;
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+
             transaction = session.beginTransaction();
 
             String hql = "UPDATE User SET pass = :pass WHERE id = :id";
-            Query query = session.createQuery(hql);
+            MutationQuery query = session.createMutationQuery(hql);
             query.setParameter("pass", user.getPass());
             query.setParameter("id", user.getId());
             query.executeUpdate();

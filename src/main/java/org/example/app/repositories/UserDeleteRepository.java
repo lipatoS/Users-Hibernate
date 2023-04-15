@@ -1,14 +1,13 @@
 package org.example.app.repositories;
 
-import jakarta.persistence.Query;
 import org.example.app.entities.User;
 import org.example.app.utils.Constants;
 import org.example.app.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.MutationQuery;
 
 public class UserDeleteRepository {
-    @SuppressWarnings("deprecation")
     public String deleteUser(User user) {
 
         Transaction transaction = null;
@@ -19,7 +18,7 @@ public class UserDeleteRepository {
 
             if (user != null) {
                 String hql = "DELETE FROM User WHERE id = :id";
-                Query query = session.createQuery(hql);
+                MutationQuery query = session.createMutationQuery(hql);
                 query.setParameter("id", user.getId());
                 query.executeUpdate();
             }
